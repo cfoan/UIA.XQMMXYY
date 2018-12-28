@@ -14,7 +14,7 @@ using System.Windows.Automation;
 
 namespace Cfoan.Automation
 {
-    
+
     public enum WaitState
     {
         WaitProcess,
@@ -22,7 +22,7 @@ namespace Cfoan.Automation
         WaitMainFormSecond,
         WaitAction
     }
-    
+
     public class SimulatorBase
     {
         private static readonly ILog logger = LogManager.GetLogger(typeof(SimulatorBase));
@@ -33,11 +33,13 @@ namespace Cfoan.Automation
 
         public SimulatorBase(AppSilmulateInfo appSilmulateInfo)
         {
+            Assert.UseDebug();
             Assert.IsNotNull(appSilmulateInfo);
             Assert.IsNotNull(appSilmulateInfo.ProcessData);
             Assert.IsNotNull(appSilmulateInfo.ProcessData.FileName);
             Assert.IsNotNull(appSilmulateInfo.ProcessData.MainWindowFileName);
             Assert.IsNotNull(appSilmulateInfo.AutomationData);
+            Assert.HasElements(appSilmulateInfo.AutomationData);
 
             this.m_appSettings = ConfigurationManager.AppSettings;
             this.m_existedProcessIdsThisApp = new List<int>();
@@ -52,9 +54,9 @@ namespace Cfoan.Automation
         }
 
         WaitState State { get; set; }
-
         string StartFile => m_silmulateInfo?.ProcessData?.FileName;
-        string MainWindowFile => m_silmulateInfo?.ProcessData?.MainWindowFileName??StartFile;
+        string MainWindowFile => m_silmulateInfo?.ProcessData?.MainWindowFileName ?? StartFile;
+
         public void Start(List<KeyValuePair<string, string>> parameters)
         {
             var @params = parameters.ToDictionary((pair) => pair.Key, (pair) => pair.Value);
@@ -145,7 +147,7 @@ namespace Cfoan.Automation
                                 }
                                 return true;
                             }, 0);
-                           
+
                             if (mainWindowHandle != IntPtr.Zero)
                             {
                                 logger.Debug($"[Loop:{loop}]get mainform,by win32Api:{wantWindowTitle},pid:{process.Id},MainWindowHandle:{mainWindowHandle}");
@@ -213,9 +215,12 @@ namespace Cfoan.Automation
 
         private void WaitForActions(Dictionary<String, String> parameters)
         {
+            Assert.IsTrue(State.Equals(WaitState.WaitAction));
+
+            int a = 1;
             while (m_silmulateContext.MoveNext())
             {
-                logger.Debug($"------开始找第{m_silmulateContext.Index}个控件------");
+                logger.Debug($"------开始找第{a++}个控件------");
                 var childInfo = m_silmulateContext.AutomationInfo;
                 var parentId = childInfo.Config.FindOptions.ParentIndex;
                 var parent = m_silmulateContext.GetFromCache(parentId);
@@ -223,7 +228,7 @@ namespace Cfoan.Automation
                 var me = AutomationUtils.FindElements(childInfo.AutomationProperties, treeScope, parent, index: childInfo.Config.FindOptions.CandidateIndex);
                 if (me == null) { return; }
                 var index = m_silmulateContext.Found(me);
-                logger.Debug($"put into cache,{index},{JsonConvert.SerializeObject(AutomationUtils.GetAumationData(me))}");
+                logger.Debug($"put it into cache,{index},{JsonConvert.SerializeObject(AutomationUtils.GetAumationData(me))}");
                 SimulateAction.WaitForActionToComplete(m_silmulateContext, childInfo.Config, parameters);
                 Thread.Sleep(200);
             }

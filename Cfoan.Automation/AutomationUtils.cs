@@ -14,16 +14,16 @@ using System.Windows.Forms;
 namespace Cfoan.Automation
 {
     public class AutomationUtils
-	{
+    {
         static ILog logger = LogManager.GetLogger(typeof(AutomationUtils));
-		private static object locker = new object();
+        private static object locker = new object();
 
-		private AutomationUtils()
-		{
+        private AutomationUtils()
+        {
             AssertLibrary.Assert.DoesNotReachHere();
         }
 
-        
+
         public static AutomationProperties GetAumationData(AutomationElement automationElement)
         {
             AutomationProperties controlInfo = new AutomationProperties();
@@ -39,7 +39,7 @@ namespace Cfoan.Automation
         {
             try
             {
-               
+
                 var file = Path.GetFileNameWithoutExtension(path);
                 return Process.GetProcessesByName(file);
             }
@@ -66,14 +66,14 @@ namespace Cfoan.Automation
          *指定该搜索包含搜索和所有后代的根。
          * 
          **/
-        public static AutomationElement FindElements(AutomationProperties controlInfo,TreeScope scope, AutomationElement parent=null,int timeoutMillis=5000,int? index=null)
+        public static AutomationElement FindElements(AutomationProperties controlInfo, TreeScope scope, AutomationElement parent = null, int timeoutMillis = 5000, int? index = null)
         {
             Assert.IsNotNull(controlInfo);
 
             parent = parent ?? AutomationElement.RootElement;
             parent.GetUpdatedCache(CacheRequest.Current);
             var startTime = DateTime.Now;
-            for (;;)
+            for (; ; )
             {
                 if ((DateTime.Now - startTime).TotalMilliseconds > timeoutMillis)
                 {
@@ -84,20 +84,20 @@ namespace Cfoan.Automation
 
                 try
                 {
-                    if(index==null)
+                    if (index == null)
                     {
                         element = parent.FindFirst(scope, GetLookupConditions(controlInfo));
                     }
                     else
                     {
                         var elements = parent.FindAll(scope, GetLookupConditions(controlInfo));
-                        if(index.Value<=elements.Count-1)
+                        if (index.Value <= elements.Count - 1)
                         {
                             var mills2 = DateTime.Now;
                             return elements[index.Value];
                         }
                     }
-                    
+
                     if (element != null)
                     {
                         var mills2 = DateTime.Now;

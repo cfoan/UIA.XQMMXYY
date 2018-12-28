@@ -12,20 +12,20 @@ namespace System
     /// </summary>
     public class WinApi
     {
-		[StructLayout(LayoutKind.Sequential)]
-		public class POINT
-		{
-			public int x;
-			public int y;
-		}
-		[StructLayout(LayoutKind.Sequential)]
-		public class MouseHookStruct
-		{
-			public POINT pt;
-			public int hwnd;
-			public int wHitTestCode;
-			public int dwExtraInfo;
-		}
+        [StructLayout(LayoutKind.Sequential)]
+        public class POINT
+        {
+            public int x;
+            public int y;
+        }
+        [StructLayout(LayoutKind.Sequential)]
+        public class MouseHookStruct
+        {
+            public POINT pt;
+            public int hwnd;
+            public int wHitTestCode;
+            public int dwExtraInfo;
+        }
         /// <summary>
         /// Hook过程 委托
         /// </summary>
@@ -374,8 +374,8 @@ namespace System
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         public static extern int SendMessage(IntPtr hwnd, int wMsg, int wParam, System.Text.StringBuilder lParam);
 
-		[DllImport("user32.dll")]
-		public static extern IntPtr PostMessage(IntPtr hWnd, UInt32 Msg, IntPtr wParam, [MarshalAs(UnmanagedType.LPStr)] string lParam);
+        [DllImport("user32.dll")]
+        public static extern IntPtr PostMessage(IntPtr hWnd, UInt32 Msg, IntPtr wParam, [MarshalAs(UnmanagedType.LPStr)] string lParam);
         /// <summary>
         /// 取得一个窗体的标题（caption）文字，或者一个控件的内容
         /// </summary>
@@ -542,57 +542,57 @@ namespace System
         #endregion
 
         #region Clipboard 剪贴板操作
-        
-//        /// <summary>
-//        /// 打开剪切板
-//        /// 每次只允许一个进程打开并访问。每打开一次就要关闭，否则其他进程无法访问剪切板。
-//        /// </summary>
-//        /// <param name="hWndNewOwner">指定关联到打开的剪切板的窗口句柄，传入NULL表示关联到当前任务。</param>
-//        /// <returns></returns>
-//        [DllImport("user32.dll")]
-//        public static extern bool OpenClipboard(IntPtr hWndNewOwner);
-         
-//        /// <summary>
-//        /// 关闭剪切板
-//        /// </summary>
-//        [DllImport("user32.dll")]
-//        public static extern bool CloseClipboard();
 
-//        /// <summary>
-//        /// 清空剪切板内容
-//        /// </summary>
-//        [DllImport("user32.dll")]
-//        public static extern bool EmptyClipboard ();
-        
-///// <summary>
-//        /// 分配内存
-//        /// </summary>
-//        [DllImport("user32.dll")]
-//        public static extern HGLOBAL GlobalAlloc(UINT uFlags, SIZE_T dwBytes);
-//  在堆上动态分配以字节为单位的内存区域。成功则指向该内存，失败NULL。参数：1.分配内存属性， 2.分配的大小
-//      锁定内存
-//LPVOID GlobalLock(HGLOBAL hMem);
-//  锁定由GlobalAlloc分配的内存，并将内存对象的锁定计数器+1，成功返回指向内存对象起始地址的指针。失败NULL
+        //        /// <summary>
+        //        /// 打开剪切板
+        //        /// 每次只允许一个进程打开并访问。每打开一次就要关闭，否则其他进程无法访问剪切板。
+        //        /// </summary>
+        //        /// <param name="hWndNewOwner">指定关联到打开的剪切板的窗口句柄，传入NULL表示关联到当前任务。</param>
+        //        /// <returns></returns>
+        //        [DllImport("user32.dll")]
+        //        public static extern bool OpenClipboard(IntPtr hWndNewOwner);
 
-//系统为每个全局内存对象维护一个锁定计数器，初始为0，GlobalLock使计数器+1，GlobalUnLock计数器-1.一旦计数器值大于0，
+        //        /// <summary>
+        //        /// 关闭剪切板
+        //        /// </summary>
+        //        [DllImport("user32.dll")]
+        //        public static extern bool CloseClipboard();
 
-//这块内存区域将不允许被移动或删除，只有当为0时，才解除对这块内存的锁定。如果分配时GMEM_FIXED属性，计数器一直为0
+        //        /// <summary>
+        //        /// 清空剪切板内容
+        //        /// </summary>
+        //        [DllImport("user32.dll")]
+        //        public static extern bool EmptyClipboard ();
 
-//GetClipboardData 获取剪切板内容
-//SetClipboardData 设置剪切板内容
-//IsClipboardFormatAvailable 判断剪切板的内容是否为某种格式
-//CountClipboardFormats 获取剪切板当前内容有多少种类型
-//EnumClipboardFormats 枚举剪切板中的格式
-//GetClipboardFormatName 获取剪切板的格式的名称
-//GetPriorityClipboardFormat 获取在一个列表下某个索引的剪切板格式
-//RegisterClipboardFormat 注册(追加)剪切板格式
-//高级应用下使用的函数（做剪切板监视程序的时候使用）:
-//ChangeClipboardChain 改变剪切板监视链句柄
-//GetClipboardOwner 获取剪切板的当前者句柄
-//GetClipboardViewer 获取剪切板的原来第一个监视者句柄
-//SetClipboardViewer 追加剪切板的监视者句柄
-//GetOpenClipboardWindow 获取打开剪切板的当前窗口句柄
-//GetClipboardSequenceNumber 获取当前窗体在剪切板链下的序列号
+        ///// <summary>
+        //        /// 分配内存
+        //        /// </summary>
+        //        [DllImport("user32.dll")]
+        //        public static extern HGLOBAL GlobalAlloc(UINT uFlags, SIZE_T dwBytes);
+        //  在堆上动态分配以字节为单位的内存区域。成功则指向该内存，失败NULL。参数：1.分配内存属性， 2.分配的大小
+        //      锁定内存
+        //LPVOID GlobalLock(HGLOBAL hMem);
+        //  锁定由GlobalAlloc分配的内存，并将内存对象的锁定计数器+1，成功返回指向内存对象起始地址的指针。失败NULL
+
+        //系统为每个全局内存对象维护一个锁定计数器，初始为0，GlobalLock使计数器+1，GlobalUnLock计数器-1.一旦计数器值大于0，
+
+        //这块内存区域将不允许被移动或删除，只有当为0时，才解除对这块内存的锁定。如果分配时GMEM_FIXED属性，计数器一直为0
+
+        //GetClipboardData 获取剪切板内容
+        //SetClipboardData 设置剪切板内容
+        //IsClipboardFormatAvailable 判断剪切板的内容是否为某种格式
+        //CountClipboardFormats 获取剪切板当前内容有多少种类型
+        //EnumClipboardFormats 枚举剪切板中的格式
+        //GetClipboardFormatName 获取剪切板的格式的名称
+        //GetPriorityClipboardFormat 获取在一个列表下某个索引的剪切板格式
+        //RegisterClipboardFormat 注册(追加)剪切板格式
+        //高级应用下使用的函数（做剪切板监视程序的时候使用）:
+        //ChangeClipboardChain 改变剪切板监视链句柄
+        //GetClipboardOwner 获取剪切板的当前者句柄
+        //GetClipboardViewer 获取剪切板的原来第一个监视者句柄
+        //SetClipboardViewer 追加剪切板的监视者句柄
+        //GetOpenClipboardWindow 获取打开剪切板的当前窗口句柄
+        //GetClipboardSequenceNumber 获取当前窗体在剪切板链下的序列号
 
         #endregion
 

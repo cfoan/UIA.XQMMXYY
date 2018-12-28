@@ -1,4 +1,5 @@
-﻿using Cfoan.Automation.Model;
+﻿using AssertLibrary;
+using Cfoan.Automation.Model;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -10,9 +11,9 @@ namespace Cfoan.Automation
 {
     public class SilmulateContext
     {
-        AppSilmulateInfo appSilmulateInfo;
-        private List<AutomationEntry> entries = new List<AutomationEntry>();
-        private volatile int index = 0;
+        readonly AppSilmulateInfo appSilmulateInfo;
+        readonly List<AutomationEntry> entries = new List<AutomationEntry>();
+        readonly volatile int index = 0;
 
         public AutomationElement Element => GetFromCache(index);
         public AutomationElement Root => GetFromCache(0);
@@ -20,6 +21,11 @@ namespace Cfoan.Automation
         
         public SilmulateContext(AppSilmulateInfo info)
         {
+            Assert.UseDebug();
+            Assert.IsNotNull(info);
+            Assert.IsNotNull(info.AutomationData);
+            Assert.HasElements(info.AutomationData);
+
             appSilmulateInfo = info;
             var temp = 0;
             var entry=info.AutomationData.Select((i) =>
@@ -41,12 +47,13 @@ namespace Cfoan.Automation
 
         public AutomationElement GetFromCache(int index)
         {
-            return (index > this.entries.Count - 1) ? null :
-                entries[index]?.Element;
+            Assert.IsLess(index, entries.Count);
+            return entries[index]?.Element;
         }
 
         public int Found(AutomationElement ae)
         {
+            Assert.IsLess(index, entries.Count);
             entries[index].Element = ae;
             return index;
         }
@@ -57,8 +64,6 @@ namespace Cfoan.Automation
         /// 这个有点不好使啊 考虑换掉
         /// </summary>
         public InputSimulator InputSimulator { get; } = new InputSimulator();
-
-        public int Index => index;
     }
 
     public class AutomationEntry
