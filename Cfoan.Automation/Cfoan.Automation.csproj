@@ -70,7 +70,7 @@
     <Compile Include="Action\AbstractAction.cs" />
     <Compile Include="Action\ComboBoxSetIndex.cs" />
     <Compile Include="Action\InvokePatternAction.cs" />
-    <Compile Include="Action\PostponeNext.cs" />
+    <Compile Include="Action\PostponeAction.cs" />
     <Compile Include="Action\SendMessageClick.cs" />
     <Compile Include="Action\SendMessageSetText.cs" />
     <Compile Include="Action\SetValuePatternAction.cs" />
@@ -82,7 +82,7 @@
     <Compile Include="Model\AutomationInfo.cs" />
     <Compile Include="Model\ConfigItem.cs" />
     <Compile Include="Model\AppSilmulateInfo.cs" />
-    <Compile Include="Model\AutomationProperty.cs" />
+    <Compile Include="Model\AutomationProperties.cs" />
     <Compile Include="AutomationUtils.cs" />
     <Compile Include="Model\ProcessData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
