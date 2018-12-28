@@ -13,8 +13,12 @@ namespace Cfoan.Automation
         public static ProcessData LoadProcessStartInfo(string appName)
         {
             var file = ProcessDataFile(appName);
-            var content = File.ReadAllText(file);
-            return JsonConvert.DeserializeObject<ProcessData>(content);
+            if (File.Exists(file))
+            {
+                var content = File.ReadAllText(file);
+                return JsonConvert.DeserializeObject<ProcessData>(content);
+            }
+            return null;
         }
 
         public static void SaveProcessData(string appName, ProcessData processData)
@@ -26,9 +30,13 @@ namespace Cfoan.Automation
         public static List<AutomationInfo> GetCloginFile(string appName)
         {
             var loginFile = CloginFile(appName);
-            var content = File.ReadAllText(loginFile);
-            var infos = JsonConvert.DeserializeObject<List<AutomationInfo>>(content);
-            return infos;
+            if (File.Exists(loginFile))
+            {
+                var content = File.ReadAllText(loginFile);
+                var infos = JsonConvert.DeserializeObject<List<AutomationInfo>>(content);
+                return infos;
+            }
+            return new List<AutomationInfo>(0);
         }
 
         public static void SaveCloginFile(string appName, List<AutomationInfo> content)
@@ -40,9 +48,13 @@ namespace Cfoan.Automation
         public static AppSilmulateInfo GetCombined(string appName)
         {
             var file = ConbinedFile(appName);
-            var content=File.ReadAllText(file);
-            var info = JsonConvert.DeserializeObject<AppSilmulateInfo>(content);
-            return info;
+            if (File.Exists(file))
+            {
+                var content = File.ReadAllText(file);
+                var info = JsonConvert.DeserializeObject<AppSilmulateInfo>(content);
+                return info;
+            }
+            return null;
         }
 
         public static void SaveCombined(string appName, AppSilmulateInfo content)

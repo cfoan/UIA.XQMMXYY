@@ -97,7 +97,7 @@ namespace Cfoan.Automation
         {
             try
             {
-                handlers[childConfig.Type]?.Invoke(ctx, childConfig, parameters);
+                handlers[childConfig.ActionType]?.Invoke(ctx, childConfig, parameters);
                 return true;
             }
             catch (Exception ex)

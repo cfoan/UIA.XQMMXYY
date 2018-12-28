@@ -89,7 +89,7 @@ namespace Cfoan.Automation
             Process process = null;
             IntPtr mainWindowHandle = IntPtr.Zero;
             AutomationElement element = null;
-            int loop = 1;
+            int loop = 0;
             for (; ; )
             {
                 if ((DateTime.UtcNow - startTime).TotalMilliseconds > timeout || element != null)
@@ -124,7 +124,7 @@ namespace Cfoan.Automation
                         if (process.MainWindowHandle != IntPtr.Zero)
                         {
                             mainWindowHandle = process.MainWindowHandle;
-                            logger.Debug($"[Loop:{loop}]get mainform {process.MainWindowTitle},{process.MainWindowHandle}");
+                            logger.Debug($"[Loop:{loop}]get mainform,pid:{process.Id},MainWindowHandle:{mainWindowHandle}");
                             State = WaitState.WaitMainFormSecond;
                         }
                         else
@@ -145,9 +145,10 @@ namespace Cfoan.Automation
                                 }
                                 return true;
                             }, 0);
-                            logger.Debug($"[Loop:{loop}]get mainform,by win32Api:{wantWindowTitle},{mainWindowHandle}");
+                           
                             if (mainWindowHandle != IntPtr.Zero)
                             {
+                                logger.Debug($"[Loop:{loop}]get mainform,by win32Api:{wantWindowTitle},pid:{process.Id},MainWindowHandle:{mainWindowHandle}");
                                 State = WaitState.WaitMainFormSecond;
                             }
                         }
@@ -217,17 +218,14 @@ namespace Cfoan.Automation
             {
                 logger.Debug($"------开始找第{m_silmulateContext.Index}个控件------");
                 var childInfo = m_silmulateContext.AutomationInfo;
-                var parentId = childInfo.Config?.ParentId;
-                if (parentId != null)
-                {
-                    var parent = m_silmulateContext.GetFromCache(parentId.Value);
-                    var treeScope = childInfo.Config.IncludeDescendants ? TreeScope.Descendants : TreeScope.Children;
-                    var me = AutomationUtils.FindElements(childInfo.AutomationProperties, treeScope, parent, index: childInfo.Config.Index);
-                    if (me == null) { return; }
-                    var index = m_silmulateContext.Found(me);
-                    logger.Debug($"put into cache,{index},{JsonConvert.SerializeObject(AutomationUtils.GetAumationData(me))}");
-                    running = SimulateAction.WaitForActionToComplete(m_silmulateContext, childInfo.Config, parameters);
-                }
+                var parentId = childInfo.Config.FindOptions.ParentIndex;
+                var parent = m_silmulateContext.GetFromCache(parentId);
+                var treeScope = childInfo.Config.FindOptions.IncludeDescendants ? TreeScope.Descendants : TreeScope.Children;
+                var me = AutomationUtils.FindElements(childInfo.AutomationProperties, treeScope, parent, index: childInfo.Config.FindOptions.CandidateIndex);
+                if (me == null) { return; }
+                var index = m_silmulateContext.Found(me);
+                logger.Debug($"put into cache,{index},{JsonConvert.SerializeObject(AutomationUtils.GetAumationData(me))}");
+                running = SimulateAction.WaitForActionToComplete(m_silmulateContext, childInfo.Config, parameters);
                 Thread.Sleep(200);
             }
         }
