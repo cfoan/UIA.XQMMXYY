@@ -4,10 +4,10 @@ namespace Cfoan.Automation
 {
     public partial class Actions
     {
-        public class PostponeNext : AbstractSimulateAction
+        public class PostponeAction : AbstractSimulateAction
         {
             public int SleepMillis { get; private set; }
-            public PostponeNext(int millis)
+            public PostponeAction(int millis)
                 :base(null)
             {
                 SleepMillis = millis;

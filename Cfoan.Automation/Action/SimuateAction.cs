@@ -62,7 +62,7 @@ namespace Cfoan.Automation
 
             handlers[(int)SimulateActionType.Sleep] = ((ctx, item, parameters) =>
             {
-                new PostponeNext(item.SleepMillis).Perform();
+                new PostponeAction(item.SleepMillis).Perform();
             });
 
             handlers[(int)SimulateActionType.ComboxBoxSetIndex] = ((ctx, item, parameters) =>
@@ -75,7 +75,7 @@ namespace Cfoan.Automation
             {
                 if (parameters.TryGetValue(item.ParameterName, out string parameter))
                 {
-                    new SetValuePattern(ctx, parameter).Perform();
+                    new SetValuePatternAction(ctx, parameter).Perform();
                 }
             });
 

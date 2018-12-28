@@ -4,7 +4,7 @@ namespace Cfoan.Automation
 {
     public partial class Actions
     {
-        public class SetValuePattern : AbstractSimulateAction
+        public class SetValuePatternAction : AbstractSimulateAction
         {
             public override SimulateActionType Type
             {
@@ -16,7 +16,7 @@ namespace Cfoan.Automation
 
             string msg;
 
-            public SetValuePattern(SilmulateContext ctx, string msg)
+            public SetValuePatternAction(SilmulateContext ctx, string msg)
                 :base(ctx)
             {
                 this.msg = msg;

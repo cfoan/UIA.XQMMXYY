@@ -13,12 +13,6 @@ using System.Windows.Forms;
 
 namespace Cfoan.Automation
 {
-
-    /*****
-     * todo 用 Path.GetFileNameWithoutExtension();
-     * 
-     * 
-     **/
     public class AutomationUtils
 	{
         static ILog logger = LogManager.GetLogger(typeof(AutomationUtils));
@@ -41,30 +35,6 @@ namespace Cfoan.Automation
             return controlInfo;
         }
 
-        public static Process GetFirstProcessByPath(string path)
-        {
-            try
-            {
-                var file = path.Substring(path.LastIndexOf('\\') + 1);
-                if (file.Length <= 4)
-                {
-                    return null;
-                }
-                var processName = file.Substring(0, file.Length - 4);
-                var processes = Process.GetProcessesByName(processName);
-                var sameProcess = (from p in processes
-                                   where p.MainModule.FileName == path
-                                   select p).ToArray();
-                if (sameProcess.Length > 0) { return sameProcess[0]; }
-
-            }
-            catch (Exception ex)
-            {
-                logger.Info(ex.Message, ex);
-            }
-            return null;
-        }
-
         public static Process[] GetAllProcessesByPath(string path)
         {
             try
@@ -79,12 +49,6 @@ namespace Cfoan.Automation
             }
             return new Process[0];
         }
-
-        static Process GetFirstProcessByName(string name)
-		{
-			var processes = Process.GetProcessesByName(name);
-            return processes.Length > 0 ? processes[0] : null;
-		}
 
         /**
          * TreeScope枚举值
@@ -196,57 +160,5 @@ namespace Cfoan.Automation
             var cultrue = CultureInfo.CreateSpecificCulture("en-us");
             InputLanguage.CurrentInputLanguage = InputLanguage.FromCulture(cultrue);
         }
-
-        #region 保存配置
-        public static void SaveAutologinInfo(string path, string autoLoginConfig)
-		{
-            try
-            {
-                using (FileStream fs = File.Create(path))
-                {
-                    var b = Encoding.UTF8.GetBytes(autoLoginConfig);
-                    fs.Write(BitConverter.GetBytes(b.Length), 0, 4);
-                    fs.Write(b, 0, b.Length);
-                    fs.Flush();
-                }
-            }
-            catch (Exception ex)
-            {
-                logger.Info(ex.Message, ex);
-            }
-		}
-
-        /// <summary>
-        /// exe同目录下的xxx.cfoanlogin
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        public static string ReadLocalAutologinFile(string path)
-        {
-            if (!File.Exists(path))
-            {
-                return null;
-            }
-            try
-            {
-                using (FileStream fs = File.Open(path, FileMode.Open))
-                {
-                    if (fs.CanRead)
-                    {
-                        string[] result = new string[2];
-                        byte[] buffer = new byte[4096];
-                        var total = fs.Read(buffer, 0, buffer.Length);
-                        var len = BitConverter.ToInt32(buffer, 0);
-                        return Encoding.UTF8.GetString(buffer, 4, len);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                logger.Info(ex.Message, ex);
-            }
-            return null;
-        }
-        #endregion
     }
 }

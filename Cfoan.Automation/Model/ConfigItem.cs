@@ -12,7 +12,6 @@ namespace Cfoan.Automation.Model
         public AutomationFindOptions FindOptions { get; set; }
     }
 
-    //todo 放到AutomationProperties类里面？
     public class AutomationFindOptions
     {
         public bool IncludeDescendants { get; set; }
