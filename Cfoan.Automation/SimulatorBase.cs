@@ -213,8 +213,7 @@ namespace Cfoan.Automation
 
         private void WaitForActions(Dictionary<String, String> parameters)
         {
-            bool running = true;
-            while (m_silmulateContext.MoveNext()&& running)
+            while (m_silmulateContext.MoveNext())
             {
                 logger.Debug($"------开始找第{m_silmulateContext.Index}个控件------");
                 var childInfo = m_silmulateContext.AutomationInfo;
@@ -225,7 +224,7 @@ namespace Cfoan.Automation
                 if (me == null) { return; }
                 var index = m_silmulateContext.Found(me);
                 logger.Debug($"put into cache,{index},{JsonConvert.SerializeObject(AutomationUtils.GetAumationData(me))}");
-                running = SimulateAction.WaitForActionToComplete(m_silmulateContext, childInfo.Config, parameters);
+                SimulateAction.WaitForActionToComplete(m_silmulateContext, childInfo.Config, parameters);
                 Thread.Sleep(200);
             }
         }
