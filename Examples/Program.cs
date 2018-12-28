@@ -15,8 +15,11 @@ namespace Examples
         static void Main(string[] args)
         {
             
-            QQLite lite = new QQLite();
-            lite.Start("123","3456");
+            //QQLite lite = new QQLite();
+            //lite.Start("123","3456");
+
+            QQTim tim = new QQTim();
+            tim.Start("1029554868","456");
             Console.ReadKey();
         }
     }
