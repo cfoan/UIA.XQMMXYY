@@ -13,7 +13,7 @@ namespace Cfoan.Automation
     {
         readonly AppSilmulateInfo appSilmulateInfo;
         readonly List<AutomationEntry> entries = new List<AutomationEntry>();
-        readonly volatile int index = 0;
+        volatile int index = 0;
 
         public AutomationElement Element => GetFromCache(index);
         public AutomationElement Root => GetFromCache(0);
