@@ -18,9 +18,9 @@ namespace Cfoan.Automation
             public override void Perform()
             {
                 //LogUtil.Debug($"SendMessageSetText:{msg}");
-                if (Context.Element != null)
+                if (Context.CurrentElement != null)
                 {
-                    WinApi.SendMessage((IntPtr)Context.Element.Current.NativeWindowHandle, WinApi.WM_SETTEXT, IntPtr.Zero, msg);
+                    WinApi.SendMessage((IntPtr)Context.CurrentElement.Current.NativeWindowHandle, WinApi.WM_SETTEXT, IntPtr.Zero, msg);
                 }
             }
         }

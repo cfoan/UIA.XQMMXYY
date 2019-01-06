@@ -1,4 +1,5 @@
 ﻿using AssertLibrary;
+using Cfoan.Automation.Model;
 using log4net;
 using Newtonsoft.Json;
 using System;
@@ -61,7 +62,7 @@ namespace Cfoan.Automation
         {
             var @params = parameters.ToDictionary((pair) => pair.Key, (pair) => pair.Value);
             StartProcess(m_silmulateInfo.ProcessData);
-            WaitForMainWindow();
+            WaitForMainWindow(m_silmulateContext.CurrentAutomationInfo);
             WaitForActions(@params);
         }
 
@@ -81,9 +82,11 @@ namespace Cfoan.Automation
             logger.Debug($"启动参数:{process.StartInfo.Arguments}");
         }
 
-        private void WaitForMainWindow()
+        /// <summary>
+        /// 这个要确保第一个是窗体的配置项
+        /// </summary>
+        private void WaitForMainWindow(AutomationInfo automationInfo)
         {
-            var automationInfo = m_silmulateContext.AutomationInfo;
             Assert.IsNotNull(automationInfo);
             int.TryParse(m_appSettings["timeout"], out int timeout);
             if (timeout <= 0) { timeout = 15000; }
@@ -221,7 +224,7 @@ namespace Cfoan.Automation
             while (m_silmulateContext.MoveNext())
             {
                 logger.Debug($"------开始找第{a++}个控件------");
-                var childInfo = m_silmulateContext.AutomationInfo;
+                var childInfo = m_silmulateContext.CurrentAutomationInfo;
                 var parentId = childInfo.Config.FindOptions.ParentIndex;
                 var parent = m_silmulateContext.GetFromCache(parentId);
                 var treeScope = childInfo.Config.FindOptions.IncludeDescendants ? TreeScope.Descendants : TreeScope.Children;

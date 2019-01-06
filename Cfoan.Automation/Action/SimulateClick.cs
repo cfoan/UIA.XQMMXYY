@@ -22,9 +22,9 @@ namespace Cfoan.Automation
 
             public override void Perform()
             {
-                if (Context.Element != null)
+                if (Context.CurrentElement != null)
                 {
-                    var rect = Context.Element.Current.BoundingRectangle;
+                    var rect = Context.CurrentElement.Current.BoundingRectangle;
                     var CenterPoint = new System.Drawing.Point();
                     CenterPoint.X = Convert.ToInt32(rect.Left + rect.Width / 2);
                     CenterPoint.Y = Convert.ToInt32(rect.Top + rect.Height / 2);

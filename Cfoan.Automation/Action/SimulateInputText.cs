@@ -33,7 +33,7 @@ namespace Cfoan.Automation
                 if (inputLanguageName.Contains("搜狗") || inputLanguageName.Contains("谷歌")
                     || inputLanguageName.Contains("ABC") || inputLanguageName.Contains("微软"))
                 {
-                    var handle = Context.Element != null ? new IntPtr(Context.Element.Current.NativeWindowHandle) : IntPtr.Zero;
+                    var handle = Context.CurrentElement != null ? new IntPtr(Context.CurrentElement.Current.NativeWindowHandle) : IntPtr.Zero;
                     if (handle != IntPtr.Zero)
                     {
                         IntPtr prt = WinApi.ImmGetContext(handle);
@@ -43,9 +43,9 @@ namespace Cfoan.Automation
                     }
                 }
 
-                if (Context.Element != null)
+                if (Context.CurrentElement != null)
                 {
-                    var rect = Context.Element.Current.BoundingRectangle;
+                    var rect = Context.CurrentElement.Current.BoundingRectangle;
                     var CenterPoint = new System.Drawing.Point();
                     CenterPoint.X = Convert.ToInt32(rect.Left + rect.Width / 2);
                     CenterPoint.Y = Convert.ToInt32(rect.Top + rect.Height / 2);

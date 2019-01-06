@@ -15,9 +15,9 @@ namespace Cfoan.Automation
         readonly List<AutomationEntry> entries = new List<AutomationEntry>();
         volatile int index = 0;
 
-        public AutomationElement Element => GetFromCache(index);
+        public AutomationElement CurrentElement => GetFromCache(index);
         public AutomationElement Root => GetFromCache(0);
-        public AutomationInfo AutomationInfo => entries[index]?.Info;
+        public AutomationInfo CurrentAutomationInfo => entries[index]?.Info;
         
         public SilmulateContext(AppSilmulateInfo info)
         {

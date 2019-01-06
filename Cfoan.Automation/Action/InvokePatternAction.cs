@@ -26,10 +26,10 @@ namespace Cfoan.Automation
 
             public override void Perform()
             {
-                if (Context.Element != null)
+                if (Context.CurrentElement != null)
                 {
                     InvokePattern invokePattern;
-                    if (Context.Element.TryGetCurrentPattern(InvokePattern.Pattern, out object patternObject))
+                    if (Context.CurrentElement.TryGetCurrentPattern(InvokePattern.Pattern, out object patternObject))
                     {
                         invokePattern = (InvokePattern)patternObject;
                         invokePattern.Invoke();

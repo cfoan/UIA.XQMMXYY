@@ -71,7 +71,7 @@ namespace Cfoan.Automation
             Assert.IsNotNull(controlInfo);
 
             parent = parent ?? AutomationElement.RootElement;
-            parent.GetUpdatedCache(CacheRequest.Current);
+            //parent.GetUpdatedCache(CacheRequest.Current);
             var startTime = DateTime.Now;
             for (; ; )
             {

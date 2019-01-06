@@ -24,9 +24,9 @@ namespace Cfoan.Automation
 
             public override void Perform()
             {
-                if (Context.Element != null)
+                if (Context.CurrentElement != null)
                 {
-                    if (Context.Element.TryGetCurrentPattern(ValuePattern.Pattern, out object objPattern2))
+                    if (Context.CurrentElement.TryGetCurrentPattern(ValuePattern.Pattern, out object objPattern2))
                     {
                         ValuePattern invokePattern = (ValuePattern)objPattern2;
                         invokePattern.SetValue(msg);

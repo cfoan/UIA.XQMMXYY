@@ -29,7 +29,7 @@ namespace Cfoan.Automation
 
             public override void Perform()
             {
-                var comboBox= Context.Element;
+                var comboBox= Context.CurrentElement;
                 var allChildControls=comboBox.FindAll(TreeScope.Children,Condition.TrueCondition);
                 AutomationElement button = null;
                 AutomationElement edit = null;

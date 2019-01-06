@@ -22,9 +22,9 @@ namespace Cfoan.Automation
 
             public override void Perform()
             {
-                if (Context.Element != null)
+                if (Context.CurrentElement != null)
                 {
-                    if (Context.Element.TryGetCurrentPattern(TogglePattern.Pattern, out object objPattern2))
+                    if (Context.CurrentElement.TryGetCurrentPattern(TogglePattern.Pattern, out object objPattern2))
                     {
                         var togglePattern = (TogglePattern)objPattern2;
                         var toState = ParseState(state);

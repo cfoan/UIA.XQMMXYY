@@ -16,9 +16,9 @@ namespace Cfoan.Automation
 
             public override void Perform()
             {
-                if (Context.Element != null)
+                if (Context.CurrentElement != null)
                 {
-                    WinApi.SendMessage((IntPtr)Context.Element.Current.NativeWindowHandle, WinApi.WM_CLICK, IntPtr.Zero, null);
+                    WinApi.SendMessage((IntPtr)Context.CurrentElement.Current.NativeWindowHandle, WinApi.WM_CLICK, IntPtr.Zero, null);
                 }
             }
         }
